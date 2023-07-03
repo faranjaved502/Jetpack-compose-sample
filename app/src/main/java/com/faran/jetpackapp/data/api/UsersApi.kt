@@ -1,8 +1,10 @@
 package com.faran.jetpackapp.data.api
 
 import com.faran.jetpackapp.data.user.network.response.UserResponseDTO
+import com.faran.jetpackapp.data.user.network.response.UserResponsePhotosDTO
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface UsersApi {
 
@@ -10,5 +12,7 @@ interface UsersApi {
     fun getAllUsers(): Call<List<UserResponseDTO>>
 
     @GET("/photos")
-    fun getAllPhotos(): Call<UserResponseDTO>
+    fun getUserPhotos(
+        @Query("albumId") id: Int,
+    ): Call<List<UserResponsePhotosDTO>>
 }
