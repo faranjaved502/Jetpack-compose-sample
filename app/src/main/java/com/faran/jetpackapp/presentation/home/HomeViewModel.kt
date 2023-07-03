@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
                 is UserUseCase.Result.Success -> {
                     _usersList.value = result.usersList
                 }
-                is UserUseCase.Result.Error -> ""
+                is UserUseCase.Result.Error -> result.message
             }
         }
     }

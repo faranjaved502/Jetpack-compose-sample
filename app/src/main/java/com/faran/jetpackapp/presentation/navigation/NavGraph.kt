@@ -34,11 +34,25 @@ fun NavGraph(navController: NavHostController) {
             val id = entry.arguments?.getInt("id")
             UserDetail(
                 navController = navController,
-                id?.let {it}
+                id = id
             )
         }
-        composable(route = Screens.PHOTO.route) {
-            PhotoScreen()
+        composable(
+            route = Screens.PHOTO.route + "/{albumId}",
+            arguments = listOf(
+                navArgument("albumId") {
+                    type = NavType.IntType
+                    defaultValue = 0
+                    nullable = false
+                }
+            )
+            ){ entry ->
+            /* Extracting the album Id from the route */
+            val albumId = entry.arguments?.getInt("albumId")
+            PhotoScreen(
+                navController = navController,
+                albumId = albumId
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.faran.jetpackapp.base
+package com.faran.jetpackapp.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
