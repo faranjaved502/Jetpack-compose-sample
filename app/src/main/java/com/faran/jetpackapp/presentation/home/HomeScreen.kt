@@ -1,6 +1,7 @@
 package com.faran.jetpackapp.presentation.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -15,8 +16,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.faran.jetpackapp.presentation.components.MyAppBar
 import com.faran.jetpackapp.presentation.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,25 +32,8 @@ fun HomeScreen(
     val list = viewModel.getUserList().collectAsState().value
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            listOf(
-                                Color(0xFFF518A0),
-                                Color(0xFFB232BD)
-                            )
-                        )
-                    ),
-                title = {
-                    Text(
-                        text = "Home",
-                        color = Color.White
-                    )
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = Color.Transparent
-                )
+            MyAppBar(
+                navController = navController
             )
         }, content = { innerPadding ->
             LazyColumn(

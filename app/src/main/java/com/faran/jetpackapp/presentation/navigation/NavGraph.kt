@@ -46,7 +46,7 @@ fun NavGraph(navController: NavHostController) {
                     nullable = false
                 }
             )
-            ){ entry ->
+        ) { entry ->
             /* Extracting the album Id from the route */
             val albumId = entry.arguments?.getInt("albumId")
             PhotoScreen(
