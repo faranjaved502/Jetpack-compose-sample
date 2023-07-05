@@ -1,9 +1,9 @@
 package com.faran.jetpackapp.presentation.navigation
 
 sealed class Screens(val route: String) {
-    object Home: Screens("home_screen")
-    object UserDetail: Screens("user_detail_screen")
-    object PHOTO: Screens("photo_screen")
+    object Home: Screens("home")
+    object UserDetail: Screens("user_detail")
+    object PHOTO: Screens("photo")
 
     fun withArgs(vararg args: String): String {
         return buildString {

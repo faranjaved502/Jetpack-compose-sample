@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.faran.jetpackapp.presentation.components.MyAppBar
 import com.faran.jetpackapp.presentation.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,26 +32,10 @@ fun UserDetail(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            listOf(
-                                Color(0xFFF518A0),
-                                Color(0xFFB232BD)
-                            )
-                        )
-                    ),
-                title = {
-                    Text(
-                        text = "Detail",
-                        color = Color.White
-                    )
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = Color.Transparent
-                )
-            )
+            MyAppBar(
+                navController = navController, onBackPressed = {
+                    navController.navigateUp()
+                })
         }, content = { innerPadding ->
             LazyColumn(
                 state = rememberLazyListState(),
