@@ -1,8 +1,7 @@
 package com.faran.jetpackapp.domain.usecases.userdetail
 
-import com.faran.jetpackapp.data.user.domain.UserData
-import com.faran.jetpackapp.data.user.domain.UserPhotosData
-import com.faran.jetpackapp.mvvm.usecase.UseCase
+import com.faran.jetpackapp.domain.entities.user.UserPhotosData
+import com.faran.jetpackapp.domain.mvvm.usecase.UseCase
 
 interface DetailUseCase: UseCase<DetailUseCase.Params, DetailUseCase.Result> {
 

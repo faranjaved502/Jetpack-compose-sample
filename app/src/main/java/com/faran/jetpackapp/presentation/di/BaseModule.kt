@@ -1,8 +1,8 @@
-package com.faran.jetpackapp.di
+package com.faran.jetpackapp.presentation.di
 
 import android.app.Application
 import android.content.Context
-import com.faran.jetpackapp.JetPackApplication
+import com.faran.jetpackapp.presentation.JetPackApplication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,7 +1,7 @@
 package com.faran.jetpackapp.domain.usecases.users
 
-import com.faran.jetpackapp.data.user.domain.UserData
-import com.faran.jetpackapp.mvvm.usecase.UseCase
+import com.faran.jetpackapp.domain.entities.user.UserData
+import com.faran.jetpackapp.domain.mvvm.usecase.UseCase
 
 interface UserUseCase: UseCase<Any, UserUseCase.Result> {
 

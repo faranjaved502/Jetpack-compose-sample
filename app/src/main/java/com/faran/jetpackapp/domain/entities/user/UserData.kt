@@ -1,5 +1,4 @@
-package com.faran.jetpackapp.data.user.domain
-
+package com.faran.jetpackapp.domain.entities.user
 
 data class UserData(
     val id: Int,

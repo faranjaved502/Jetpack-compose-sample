@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -67,7 +68,8 @@ fun MyAppBar(
             if (showBackButton) {
                 IconButton(onClick = { onBackPressed() }) {
                     Icon(
-                        Icons.Filled.ArrowBack, "backIcon"
+                        Icons.Filled.ArrowBack, "backIcon",
+                        tint = Color.White
                     )
                 }
             } else {
@@ -81,7 +83,6 @@ private fun getTitleForScreen(destination: String): String {
     return when (destination) {
         Screens.Home.route -> "Home"
         Screens.UserDetail.route -> "Details"
-        Screens.PHOTO.route -> "Photo"
         else -> ""
     }
 }

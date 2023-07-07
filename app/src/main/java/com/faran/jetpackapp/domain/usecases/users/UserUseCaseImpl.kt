@@ -13,11 +13,14 @@ class UserUseCaseImpl @Inject constructor(
     override suspend fun execute(inputT: Any): UserUseCase.Result {
         return withContext(Dispatchers.IO) {
             val result = userService.getAllUsers()
+
             if (result.isSuccess()) {
                 val response = result.response
                 if (response != null) {
                     UserUseCase.Result.Success(result.response)
-                } else UserUseCase.Result.Error("Response is empty")
+                } else {
+                    UserUseCase.Result.Error("Response is empty")
+                }
             } else {
                 UserUseCase.Result.Error(result.error?.errorMessage ?: "")
             }

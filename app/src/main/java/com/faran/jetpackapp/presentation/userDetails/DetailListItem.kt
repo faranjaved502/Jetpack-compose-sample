@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import com.faran.jetpackapp.data.user.domain.UserPhotosData
-import com.faran.jetpackapp.presentation.utils.LoadingAnimation
+import com.faran.jetpackapp.domain.entities.user.UserPhotosData
+import com.faran.jetpackapp.presentation.components.LoadingAnimation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
