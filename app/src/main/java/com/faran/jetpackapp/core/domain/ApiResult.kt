@@ -9,5 +9,4 @@ data class ApiResult<DomainT>(
     val response: DomainT? = null,
     val error: Error? = null,
     val headers: Headers? = null
-
 )

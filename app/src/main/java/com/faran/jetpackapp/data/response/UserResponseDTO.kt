@@ -1,4 +1,4 @@
-package com.faran.jetpackapp.data.user.network.response
+package com.faran.jetpackapp.data.response
 
 import com.squareup.moshi.Json
 

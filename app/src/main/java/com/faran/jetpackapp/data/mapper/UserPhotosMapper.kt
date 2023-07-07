@@ -1,8 +1,8 @@
-package com.faran.jetpackapp.data.user.network.mapper
+package com.faran.jetpackapp.data.mapper
 
 import com.faran.jetpackapp.core.network.mapper.DomainMapper
-import com.faran.jetpackapp.data.user.domain.UserPhotosData
-import com.faran.jetpackapp.data.user.network.response.UserResponsePhotosDTO
+import com.faran.jetpackapp.domain.entities.user.UserPhotosData
+import com.faran.jetpackapp.data.response.UserResponsePhotosDTO
 
 class UserPhotosMapper: DomainMapper<List<UserResponsePhotosDTO>, List<UserPhotosData>> {
 

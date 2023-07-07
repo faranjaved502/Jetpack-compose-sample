@@ -1,4 +1,4 @@
-package com.faran.jetpackapp.presentation.utils
+package com.faran.jetpackapp.presentation.components
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat

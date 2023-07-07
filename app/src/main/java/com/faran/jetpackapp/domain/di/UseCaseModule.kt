@@ -1,4 +1,4 @@
-package com.faran.jetpackapp.di
+package com.faran.jetpackapp.domain.di
 
 import com.faran.jetpackapp.data.services.UserService
 import com.faran.jetpackapp.domain.usecases.userdetail.DetailUseCase

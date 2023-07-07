@@ -1,4 +1,4 @@
-package com.faran.jetpackapp.di
+package com.faran.jetpackapp.data.di
 
 import android.app.Application
 import com.faran.jetpackapp.BuildConfig

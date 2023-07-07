@@ -1,4 +1,4 @@
-package com.faran.jetpackapp.mvvm.usecase
+package com.faran.jetpackapp.domain.mvvm.usecase
 
 interface UseCase<InputT, OutputT> {
 

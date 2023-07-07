@@ -24,11 +24,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.faran.jetpackapp.data.user.domain.UserData
+import com.faran.jetpackapp.domain.entities.user.UserData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserListItem(userData: UserData? = null,  onItemClick: (String) -> Unit) {
+fun UserListItem(userData: UserData? = null, onItemClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(16.dp)
