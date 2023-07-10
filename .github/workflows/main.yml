@@ -1,0 +1,9 @@
+name: Android main and release CI
+
+on:
+  push:
+    branches: 
+      - 'develop'
+      - 'release/**'
+  workflow_dispatch:
+
