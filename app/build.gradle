@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -107,6 +108,10 @@ dependencies {
 
     //coil - image loader
     implementation 'io.coil-kt:coil-compose:2.2.2'
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     //Testing
     testImplementation 'junit:junit:4.13.2'
