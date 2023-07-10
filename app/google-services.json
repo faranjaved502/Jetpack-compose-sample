@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "102129952439",
+    "project_id": "cicd-test-dd674",
+    "storage_bucket": "cicd-test-dd674.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102129952439:android:5ed9bb1823b16813bc8f32",
+        "android_client_info": {
+          "package_name": "com.faran.jetpackapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102129952439-t4g53n7s9a5ut9o56mth8eg5q0hgkb0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEbJJeyfLebD7VFcy7ZkM8hkqVUmtRa_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102129952439-t4g53n7s9a5ut9o56mth8eg5q0hgkb0v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
