@@ -11,9 +11,7 @@ jobs:
   # Set up environment and workflow configuration and information
   build:
     name: Build
-    runs-on:
-      - self-hosted
-      - amd64
+    runs-on: macos-latest
     outputs:
       MATRIX_COMBINATION: ${{ steps.set.outputs.matrix }}
       BUILD_TYPE: ${{ steps.set.outputs.buildType }}
