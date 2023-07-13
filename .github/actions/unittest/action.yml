@@ -1,0 +1,110 @@
+name: 'Unit Test'
+description: 'Android Unit test'
+inputs:
+  app:
+    description: 'App matrix flavour name'
+    required: true
+  variant:
+    description: 'Variant of the app'
+    required: true
+  githubToken:
+    description: 'Github token for PR comments'
+    required: true
+  retention:
+    description: 'Retention period for the artifacts uploaded'
+    required: true
+runs:
+  using: "composite"
+  steps:
+
+    - uses: ./.github/actions/setuprunner
+      with:
+        javaRequired: 'YES'
+        androidRequired: 'YES'
+
+    - uses: ./.github/actions/cache
+
+    - name: Set up flavour information
+      id: flavour_info
+      shell: bash
+      run: |
+        appDimension=${{ inputs.app }}
+        variantInfo=${{ inputs.variant }}
+        reportName="test${appDimension^}${variantInfo^}DebugUnitTestCoverage"
+
+        echo " this is the folder: ${appDimension}${variantInfo^}"
+        echo " this is the flavour combination: ${appDimension^}${variantInfo^}"
+
+        echo "flavour-folder=${appDimension}${variantInfo^}" >> $GITHUB_OUTPUT
+        echo "flavour-combine-name=${appDimension^}${variantInfo^}" >> $GITHUB_OUTPUT
+        echo "report-name=${reportName}" >> $GITHUB_OUTPUT
+
+        echo "app-jacoco=app/build/reports/jacoco/${reportName}/${reportName}.csv" >> $GITHUB_OUTPUT
+        echo "base-jacoco=base/build/reports/jacoco/${reportName}/${reportName}.csv" >> $GITHUB_OUTPUT
+
+        echo "app-jacoco-xml=app/build/reports/jacoco/${reportName}/${reportName}.xml" >> $GITHUB_OUTPUT
+        echo "base-jacoco-xml=base/build/reports/jacoco/${reportName}/${reportName}.xml" >> $GITHUB_OUTPUT
+
+    # Run test
+    - name: Unit test with Coverage
+      shell: bash
+      run: ./gradlew test${{ steps.flavour_info.outputs.flavour-combine-name }}DebugUnitTestCoverage
+
+    - name: Move files to output folder
+      shell: bash
+      run: |
+        reportName=${{ steps.flavour_info.outputs.report-name }}
+        directoryOutputName="reports"
+        directoryCoverageOutputName="coverage-report"
+        directoryJacocoOutputName="jacoco"
+        directoryRawCoverageOutputName="raw-coverage"
+        directoryTestOutputName="test-results"
+
+        mkdir $directoryOutputName
+        mkdir "$directoryOutputName/$directoryCoverageOutputName"
+        mkdir "$directoryOutputName/$directoryTestOutputName"
+
+        mkdir "$directoryOutputName/$directoryCoverageOutputName/$directoryRawCoverageOutputName"
+        mkdir "$directoryOutputName/$directoryCoverageOutputName/$directoryRawCoverageOutputName/app"
+        mkdir "$directoryOutputName/$directoryCoverageOutputName/$directoryRawCoverageOutputName/base"
+
+        mkdir "$directoryOutputName/$directoryCoverageOutputName/$directoryJacocoOutputName"
+
+        mkdir "$directoryOutputName/$directoryTestOutputName/app"
+        mkdir "$directoryOutputName/$directoryTestOutputName/base"
+
+        cp -a -r app/build/coverage-report/. "$directoryOutputName/$directoryCoverageOutputName/$directoryRawCoverageOutputName/app/"
+        cp -a -r base/build/coverage-report/. "$directoryOutputName/$directoryCoverageOutputName/$directoryRawCoverageOutputName/base/"
+
+        cp -a -r app/build/reports/jacoco/$reportName/$reportName.xml "$directoryOutputName/$directoryCoverageOutputName/$directoryJacocoOutputName/jacoco-app.xml"
+        cp -a -r base/build/reports/jacoco/$reportName/$reportName.xml "$directoryOutputName/$directoryCoverageOutputName/$directoryJacocoOutputName/jacoco-base.xml"
+
+        cp -a -r app/build/test-results/. "$directoryOutputName/$directoryTestOutputName/app/"
+        cp -a -r base/build/test-results/. "$directoryOutputName/$directoryTestOutputName/base/"
+
+    # Publish the uni test results as plugin.
+    # Latest lib is not stable, using previous version
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: |
+          app/build/test-results/**/*.xml
+          base/build/test-results/**/*.xml
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Unit Test Detailed Report
+        path: app/build/test-results/**/*.xml,base/build/test-results/**/*.xml
+        reporter: java-junit
+
+    # Upload the test raw results
+    - name: Upload Unit Test Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: Jacoco-Test-Results
+        path: reports/coverage-report/jacoco
+        retention-days: ${{ inputs.retention }}

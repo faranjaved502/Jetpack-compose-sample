@@ -1,0 +1,38 @@
+name: 'Build android app'
+description: 'Build android application'
+inputs:
+  app:
+    description: 'App matrix flavour name'
+    required: true
+  variant:
+    description: 'Variant of the app'
+    required: true
+runs:
+  using: "composite"
+  steps:
+
+    - uses: ./.github/actions/setuprunner
+      with:
+        javaRequired: 'YES'
+        androidRequired: 'YES'
+
+
+    - uses: ./.github/actions/cache
+
+    - name: Set up flavour information
+      id: flavour_info
+      shell: bash
+      run: |
+        appDimension=${{ inputs.app }}
+        variantInfo=${{ inputs.variant }}
+        echo " this is the folder: ${appDimension}${variantInfo^}"
+        echo " this is the flavour combination: ${appDimension^}${variantInfo^}"
+
+        echo "flavour-folder=${appDimension}${variantInfo^}" >> $GITHUB_OUTPUT
+        echo "flavour-combine-name=${appDimension^}${variantInfo^}" >> $GITHUB_OUTPUT
+
+    # Create bundle for release mode
+    - name: Assemble Build
+      shell: bash
+      run: |
+        ./gradlew assemble${{ steps.flavour_info.outputs.flavour-combine-name }}Debug

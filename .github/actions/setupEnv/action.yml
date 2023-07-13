@@ -1,0 +1,99 @@
+name: 'Set up environment and data for the workflow'
+description: 'Set up environment and data for the workflow'
+inputs:
+  devConfig:
+    description: 'Dev workflow configuration'
+    required: true
+  releaseConfig:
+    description: 'Release workflow configuration'
+    required: true
+  prConfig:
+    description: 'PR workflow configuration'
+    required: true
+outputs:
+  matrix:
+    description: "This is the matrix flavour configuration"
+    value: ${{ steps.set.outputs.MATRIX }}
+  buildNumber:
+    description: "This is the build number"
+    value: ${{ github.run_number }}
+  buildType:
+    description: "This is the buildType"
+    value: ${{ steps.set.outputs.BUILD_TYPE }}
+  shortAppName:
+    description: "Short name of the application not build number included"
+    value: ${{ steps.set.outputs.SHORT_NAME }}
+  fullAppName:
+    description: "Version name of the application build number included"
+    value: ${{ steps.set.outputs.COMPLETE_NAME }}
+  branchName:
+    description: "Branch clean name"
+    value: ${{ steps.set.outputs.BRANCH_NAME }}
+runs:
+  using: "composite"
+  steps:
+
+    # Set up main information and variables required for the build
+    - name: set up enviromment
+      id: set
+      shell: bash
+      run: |
+
+          buildNumber=${{ github.run_number }}
+          versionName=$(grep "VersionName" gradle.properties | cut -d "=" -f2 | tr -d "\'")
+          fullAppName="$versionName-$buildNumber"
+          branchName=""
+
+          #As default the buildType will be a Pr type
+          buildType="pr"
+          flavoursConfiguration=${{ inputs.prConfig }}
+
+          # Get the branch name and set up the build type
+          if [[ ${{ github.event_name }} != 'pull_request' ]];
+          then
+            branchName=$(echo ${GITHUB_REF#refs/heads/})
+            echo "This is a not pull request event: ${{ github.event_name }}"
+
+            validBranchJob=false
+
+            if [[ "$branchName" == release/*  ]];
+            then
+              buildType="rc"
+              flavoursConfiguration=${{ inputs.releaseConfig }}
+              validBranchJob=true
+              echo "This is a release branch"
+            fi
+
+            if [[ "$branchName" == develop  ]] || [[ "$branchName" == main  ]] || [[ "$branchName" == tech/* ]] ;
+            then
+              buildType="snapshot"
+              flavoursConfiguration=${{ inputs.devConfig }}
+              validBranchJob=true
+              echo "This is a develop-tech branch"
+            fi
+
+            if [[ "$validBranchJob" = false ]];
+            then
+              echo "This is not a valid branch job"
+              exit 1
+            fi
+
+          fi
+
+          if [[ ${{ github.event_name }} == 'pull_request' ]];
+          then
+            branchName=$(echo ${GITHUB_HEAD_REF})
+            echo "This is a pull request branch cos ${{ github.event_name }}"
+          fi
+
+          echo "buildNumber=$buildNumber"
+          echo "buildType=$buildType"
+          echo "versionName=$versionName"
+          echo "fullAppName=$fullAppName"
+          echo "branchName=$branchName"
+        
+          echo "BUILD_TYPE=${buildType}" >> $GITHUB_OUTPUT
+          echo "MATRIX=${flavoursConfiguration}" >> $GITHUB_OUTPUT
+          echo "SHORT_NAME=${versionName}" >> $GITHUB_OUTPUT
+          echo "COMPLETE_NAME=${fullAppName}" >> $GITHUB_OUTPUT
+          echo "BRANCH_NAME=${branchName}" >> $GITHUB_OUTPUT
