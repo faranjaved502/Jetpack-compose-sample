@@ -26,14 +26,14 @@ class HomeViewModel @Inject constructor(
 
     fun fetchUserData() {
         launch {
-            _loadingState.value = true
+            _loadingState.value = false
             when (val result = useCase.execute("")) {
                 is UserUseCase.Result.Success -> {
-                    _loadingState.value = false
+                    _loadingState.value = true
                     _usersList.value = result.usersList
                 }
                 is UserUseCase.Result.Error -> {
-                    _loadingState.value = false
+                    _loadingState.value = true
                     result.message
                 }
             }
