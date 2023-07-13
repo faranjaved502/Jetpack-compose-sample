@@ -1,0 +1,15 @@
+name: 'Set up project cache and others'
+description: 'Set up project data for the workflow'
+runs:
+  using: "composite"
+  steps:
+
+    # cache gradle for fast build
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-

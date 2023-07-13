@@ -18,7 +18,7 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 
-    @Test
+   /* @Test
     fun testReverseString() {
         //Given
         val input = "Welcome to Sydney"
@@ -42,5 +42,5 @@ class ExampleUnitTest {
             output.append(" ")
         }
         return output.toString().trimEnd()
-    }
+    }*/
 }

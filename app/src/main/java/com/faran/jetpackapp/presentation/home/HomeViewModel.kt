@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
         fetchUserData()
     }
 
-    private fun fetchUserData() {
+    fun fetchUserData() {
         launch {
             _loadingState.value = true
             when (val result = useCase.execute("")) {

@@ -4,8 +4,11 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
-    id 'com.google.gms.google-services'
+//    id 'com.google.gms.google-services'
 }
+
+apply from: '../jacoco/modules.gradle'
+
 
 android {
     namespace 'com.faran.jetpackapp'
@@ -33,12 +36,23 @@ android {
         debug {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
+
+        }
+    }
+    testOptions {
+        //execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -70,6 +84,14 @@ android {
 }
 
 dependencies {
+
+    def mockitoVersion = '4.6.1'
+    def mockitoInLineVersion = '3.11.2'
+    def mockitoAndroidVersion = '2.25.0'
+    // This need to be validated. Risk and maintenance
+    def mockitokotlinNhaarmanVersion = '2.2.0'
+
+    def coroutinesVersion = '1.7.0'
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
@@ -110,15 +132,38 @@ dependencies {
     implementation 'io.coil-kt:coil-compose:2.2.2'
 
     //Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.1.1')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
 
-    //Testing
-    testImplementation 'junit:junit:4.13.2'
+
+    //Mockito
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlinNhaarmanVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoInLineVersion"
+    androidTestImplementation "org.mockito:mockito-android:$mockitoAndroidVersion"
+
+    // For instrumentation tests
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.46.1'
+    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.46.1'
+    androidTestImplementation 'com.google.truth:truth:1.1.3'
+    androidTestImplementation 'androidx.test:core-ktx:1.5.0'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    // For local unit tests
+    testImplementation 'com.google.dagger:hilt-android-testing:2.46.1'
+    kaptTest 'com.google.dagger:hilt-compiler:2.46.1'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "androidx.test:core:1.5.0"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.8.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.8.20"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 }
