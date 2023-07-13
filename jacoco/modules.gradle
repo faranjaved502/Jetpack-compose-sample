@@ -1,7 +1,10 @@
-apply plugin: 'jacoco'
+apply plugin:
+        'jacoco'
+        'org.jetbrains.kotlin.jvm'
 
 jacoco {
     toolVersion ='0.8.7'
+    version = '1.5.10'
 }
 
 tasks.withType(Test) {
@@ -22,14 +25,12 @@ project.afterEvaluate {
                     description = "Generate Jacoco coverage reports for the ${variantName} build."
 
                     reports {
-                        html.required = true
                         xml.required = true
                         csv.required = true
                         //html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
                         //html.destination = file(getBuildDir().toString() + File.separator.toString() + "jacoco" + File.separator.toString() + "html")
                         html {
-                            enabled true
-                            destination file("${buildDir}/coverage-report")
+                            outputLocation = file("${buildDir}/coverage-report")
                         }
                     }
 
