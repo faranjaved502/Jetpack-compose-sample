@@ -5,6 +5,7 @@ on:
     branches:
       - 'develop'
       - 'release/**'
+  workflow_dispatch:
 
 # This will handle concurrency for same workflow type and branch. If new commits come to the Pr in progress will be cancelled
 concurrency:
@@ -21,7 +22,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'zulu'
 
       - name: Run Lint
