@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: zulu
+          distribution: 'zulu'
 
       - name: Run Lint
         run: ./gradlew lintDevDebug
@@ -30,6 +30,23 @@ jobs:
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
-          name: index.html
+          name: lint.html
           path: app/build/reports/lint-results-devDebug.html
+
+  unit-test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v3
+
+      - name: Run test
+        run: ./gradlew test
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit_test_report
+          path: app/build/reports/tests/testDevDebugUnitTest/
+
 
