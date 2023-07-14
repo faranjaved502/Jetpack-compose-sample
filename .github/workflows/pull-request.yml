@@ -41,6 +41,12 @@ jobs:
       - name: checkout the code
         uses: actions/checkout@v3
 
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+
       - name: Run test
         run: ./gradlew test
 
