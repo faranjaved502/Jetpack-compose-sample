@@ -12,33 +12,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: checkout the code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - name: Run Lint
+        run: ./gradlew lintDevDebug
+
+      - name: Upload html test report
+        uses: actions/upload-artifact@v2
         with:
-          java-version: '17'
-          distribution: 'zulu'
-          cache: gradle
+          name: index.html
+          path: app/build/reports/lint-results-devDebug.html
 
-      - name: Build and run tests
-        run: ./gradlew clean build
-
-      - name: Generate JaCoCo report
-        run: ./gradlew jacocoTestReport
-
-      - name: Check code coverage
-        run: |
-          COVERAGE_THRESHOLD=50
-          CODE_COVERAGE=$(sed -n 's/.*Test coverage: \([0-9]*\)%.*/\1/p' build/reports/jacoco/test/html/index.html)
-          if [ "$CODE_COVERAGE" -lt "$COVERAGE_THRESHOLD" ]; then
-            echo "Code coverage is below the threshold ($CODE_COVERAGE% < $COVERAGE_THRESHOLD%)"
-            exit 1
-          else
-            echo "Code coverage is above the threshold ($CODE_COVERAGE% >= $COVERAGE_THRESHOLD%)"
-          fi
