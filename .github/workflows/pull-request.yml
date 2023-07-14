@@ -18,6 +18,12 @@ jobs:
       - name: checkout the code
         uses: actions/checkout@v3
 
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: zulu
+
       - name: Run Lint
         run: ./gradlew lintDevDebug
 
